@@ -1,4 +1,4 @@
-package com.example.guestapp.ui.presents
+package com.example.guestapp.ui.present
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

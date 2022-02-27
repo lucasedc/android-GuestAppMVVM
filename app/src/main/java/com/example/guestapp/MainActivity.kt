@@ -2,8 +2,6 @@ package com.example.guestapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.guestapp.databinding.ActivityMainBinding
+import com.example.guestapp.ui.guest.GuestFormActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.appBarMain.fab.setOnClickListener { view ->
-            startActivity(Intent(applicationContext,GuestFormActivity::class.java))
+            startActivity(Intent(applicationContext, GuestFormActivity::class.java))
         }
 
         val drawerLayout: DrawerLayout = binding.drawerLayout

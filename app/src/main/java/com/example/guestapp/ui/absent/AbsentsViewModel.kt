@@ -1,4 +1,4 @@
-package com.example.guestapp.ui.absents
+package com.example.guestapp.ui.absent
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

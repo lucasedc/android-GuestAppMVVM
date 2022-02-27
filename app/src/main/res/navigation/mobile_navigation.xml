@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/nav_presents"
-        android:name="com.example.guestapp.ui.presents.PresentsFragment"
+        android:name="com.example.guestapp.ui.present.PresentsFragment"
         android:label="@string/menu_presents"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_absents"
-        android:name="com.example.guestapp.ui.absents.AbsentsFragment"
+        android:name="com.example.guestapp.ui.absent.AbsentsFragment"
         android:label="@string/menu_absents"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>
