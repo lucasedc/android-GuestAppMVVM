@@ -35,6 +35,7 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
             }else{
                 Toast.makeText(applicationContext,"Erro!", Toast.LENGTH_SHORT).show()
             }
+            finish()
         })
     }
 

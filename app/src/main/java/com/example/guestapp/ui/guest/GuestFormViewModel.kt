@@ -19,7 +19,7 @@ class GuestFormViewModel(application: Application) : AndroidViewModel(applicatio
     var saveGuest: LiveData<Boolean> = mSaveGuest
 
     fun save(guestModel: GuestModel) {
-        mGuestRepository.save(guestModel)
+        mSaveGuest.value = mGuestRepository.save(guestModel)
     }
 
 
