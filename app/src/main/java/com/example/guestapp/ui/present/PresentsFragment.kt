@@ -1,18 +1,31 @@
 package com.example.guestapp.ui.present
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.guestapp.R
 import com.example.guestapp.databinding.FragmentPresentBinding
+import com.example.guestapp.listener.GuestListener
+import com.example.guestapp.ui.all.GuestsViewModel
+import com.example.guestapp.ui.guest.GuestAdapter
+import com.example.guestapp.ui.guest.GuestFormActivity
+import com.example.guestapp.utils.DataBaseConstants
+import com.example.guestapp.utils.GuestConstants
 
 class PresentsFragment : Fragment() {
 
     private var _binding: FragmentPresentBinding? = null
-
+    private lateinit var guestViewModel: GuestsViewModel
+    private val mAdapter: GuestAdapter = GuestAdapter()
+    private lateinit var mGuestListener: GuestListener
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -22,17 +35,45 @@ class PresentsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val galleryViewModel =
-            ViewModelProvider(this).get(PresentsViewModel::class.java)
+        guestViewModel = ViewModelProvider(this).get(GuestsViewModel::class.java)
 
         _binding = FragmentPresentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textGallery
-        galleryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+
+        val recycler = root.findViewById<RecyclerView>(R.id.recycler_present_guests)
+        recycler.layoutManager = LinearLayoutManager(context)
+        recycler.adapter = mAdapter
+
+        guestViewModel.load(DataBaseConstants.FILTER.FILTER_PRESENTS)
+
+        mGuestListener = object : GuestListener {
+            override fun onClick(id: Int) {
+                val intent = Intent(context, GuestFormActivity::class.java)
+                val bundle = Bundle()
+                bundle.putInt(GuestConstants.GUESTID,id)
+                intent.putExtras(bundle)
+                startActivity(intent,)
+            }
+
         }
+        mAdapter.attachListener(mGuestListener)
+
+        observe()
+
         return root
+    }
+
+    private fun observe() {
+        guestViewModel.guestList.observe(viewLifecycleOwner, Observer {
+            mAdapter.updateGuest(it)
+
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        guestViewModel.load(DataBaseConstants.FILTER.FILTER_PRESENTS)
     }
 
     override fun onDestroyView() {

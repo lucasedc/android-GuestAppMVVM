@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +15,7 @@ import com.example.guestapp.databinding.FragmentAllBinding
 import com.example.guestapp.listener.GuestListener
 import com.example.guestapp.ui.guest.GuestAdapter
 import com.example.guestapp.ui.guest.GuestFormActivity
-import com.example.guestapp.ui.guest.GuestFormViewModel
+import com.example.guestapp.utils.DataBaseConstants
 import com.example.guestapp.utils.GuestConstants.Companion.GUESTID
 
 class AllGuestsFragment : Fragment() {
@@ -26,7 +25,7 @@ class AllGuestsFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var guestViewModel: AllGuestsViewModel
+    private lateinit var guestViewModel: GuestsViewModel
     private val mAdapter: GuestAdapter = GuestAdapter()
     private lateinit var mGuestListener: GuestListener
 
@@ -36,7 +35,7 @@ class AllGuestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        guestViewModel = ViewModelProvider(this).get(AllGuestsViewModel::class.java)
+        guestViewModel = ViewModelProvider(this).get(GuestsViewModel::class.java)
 
         _binding = FragmentAllBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -45,7 +44,7 @@ class AllGuestsFragment : Fragment() {
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.adapter = mAdapter
 
-        guestViewModel.load()
+        guestViewModel.load(DataBaseConstants.FILTER.FILTER_ALL)
 
         mGuestListener = object : GuestListener{
             override fun onClick(id: Int) {
@@ -68,7 +67,7 @@ class AllGuestsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        guestViewModel.load()
+        guestViewModel.load(DataBaseConstants.FILTER.FILTER_ALL)
     }
 
     private fun observe() {

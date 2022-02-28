@@ -13,4 +13,10 @@ class DataBaseConstants {
             const val PRESENCE = "presence"
         }
     }
+
+    object FILTER{
+        const val FILTER_ALL = "ALL"
+        const val FILTER_PRESENTS = "PRESENTS"
+        const val FILTER_ABSENTS = "ABSENTS"
+    }
 }
