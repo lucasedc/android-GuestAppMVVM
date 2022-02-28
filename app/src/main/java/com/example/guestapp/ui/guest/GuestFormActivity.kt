@@ -53,7 +53,7 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
     private fun saveGuest() {
         val editName = edit_guest_form_name.text.toString()
         val presenceChoice = radio_button_guest_form_present.isChecked
-        var guestModel = GuestModel(editName,presenceChoice)
+        var guestModel = GuestModel(name = editName,presence = presenceChoice)
         mGuestsViewModel.save(guestModel)
     }
 }
