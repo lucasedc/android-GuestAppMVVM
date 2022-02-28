@@ -8,24 +8,35 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.guestapp.R
 import com.example.guestapp.model.GuestModel
+import com.example.guestapp.utils.GuestConstants
 import kotlinx.android.synthetic.main.activity_guest_form.*
 
 
 class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var mGuestsViewModel : GuestFormViewModel
+    private var mGuestId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guest_form)
 
-        setListener()
+
 
         mGuestsViewModel = ViewModelProvider(this).get(GuestFormViewModel::class.java)
 
+        setListener()
         observe()
+        loadData()
 
+    }
 
+    private fun loadData() {
+        val data = intent.extras
+        if(data != null){
+            mGuestId = data.getInt(GuestConstants.GUESTID)
+            mGuestsViewModel.load(mGuestId)
+        }
     }
 
     private fun observe() {
@@ -36,6 +47,16 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(applicationContext,"Erro!", Toast.LENGTH_SHORT).show()
             }
             finish()
+        })
+
+        mGuestsViewModel.guestById.observe(this, Observer {
+            edit_guest_form_name.setText(it.name)
+            if(it.presence){
+                radio_button_guest_form_present.isChecked = true
+            }else{
+                radio_button_guest_form_absent.isChecked = true
+            }
+
         })
     }
 
@@ -54,7 +75,8 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
     private fun saveGuest() {
         val editName = edit_guest_form_name.text.toString()
         val presenceChoice = radio_button_guest_form_present.isChecked
-        var guestModel = GuestModel(name = editName,presence = presenceChoice)
+        var guestModel = GuestModel(mGuestId, editName, presenceChoice)
+
         mGuestsViewModel.save(guestModel)
     }
 }
